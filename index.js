@@ -140,8 +140,6 @@ app.delete("/post/:id", async (req, res) => {
   res.status(200).json("post successfully deleted");
 });
 
-if (process.env.API_PORT) {
-  app.listen(process.env.API_PORT, console.log("Listening 🚀"));
-}
+app.listen(process.env.API_PORT, console.log("Listening 🚀"));
 
 module.exports = app;
