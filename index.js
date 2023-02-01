@@ -140,5 +140,5 @@ app.delete("/post/:id", async (req, res) => {
   res.status(200).json("post successfully deleted");
 });
 
-const port = process.env.API_PORT;
+const port = process.env.API_PORT || 4000;
 app.listen(port, console.log("Listening 🚀"));
