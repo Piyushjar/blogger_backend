@@ -6,7 +6,6 @@ const Post = require("./models/Post");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const fs = require("fs");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const dotenv = require("dotenv");
@@ -45,7 +44,6 @@ const secret = process.env.JWT_SECRET;
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(cookieParser());
-app.use("/uploads", express.static(__dirname + "/uploads"));
 
 mongoose.connect(process.env.DB_URL);
 
@@ -82,11 +80,15 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  const { token } = req.cookies;
-  jwt.verify(token, secret, {}, (error, info) => {
-    if (error) throw error;
-    res.json(info);
-  });
+  try {
+    const { token } = req.cookies;
+    jwt.verify(token, secret, {}, (error, info) => {
+      if (error) throw error;
+      res.json(info);
+    });
+  } catch (error) {
+    res.send({ message: error.message });
+  }
 });
 
 app.post("/logout", (req, res) => {
