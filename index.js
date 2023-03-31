@@ -41,7 +41,12 @@ async function handleDelete(id) {
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.JWT_SECRET;
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    credentials: true,
+    origin: "https://blogger-frontend-eosin.vercel.app/",
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
