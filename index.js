@@ -44,7 +44,7 @@ const secret = process.env.JWT_SECRET;
 app.use(
   cors({
     credentials: true,
-    origin: "https://blogger-frontend-eosin.vercel.app/",
+    origin: "https://blogger-frontend-eosin.vercel.app",
   })
 );
 app.use(express.json());
