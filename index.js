@@ -175,8 +175,9 @@ app.delete("/post/:id", async (req, res) => {
     const { id } = req.params;
     const post = await Post.findById(id);
     if (!post) res.status(400).json("post does not exist");
-    await handleDelete(postDoc.cover.id);
+    const oldId = post.cover.id;
     await post.delete();
+    await handleDelete(oldId);
     res.status(200).json("post successfully deleted");
   } catch (error) {
     res.send({ message: error.message });
