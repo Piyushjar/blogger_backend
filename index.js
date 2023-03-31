@@ -184,6 +184,11 @@ app.delete("/post/:id", async (req, res) => {
   }
 });
 
-app.listen(4000, console.log("Listening 🚀"));
+app.get("/", (req, res) => {
+  res.send("Server running");
+});
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, console.log("Listening 🚀"));
 
 module.exports = app;
