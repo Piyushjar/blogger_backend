@@ -44,7 +44,7 @@ const secret = process.env.JWT_SECRET;
 app.use(
   cors({
     credentials: true,
-    origin: `${process.env.CORS_URL}`,
+    origin: process.env.CORS_URL,
   })
 );
 app.use(express.json());
