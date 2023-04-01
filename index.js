@@ -44,7 +44,7 @@ const secret = process.env.JWT_SECRET;
 app.use(
   cors({
     credentials: true,
-    origin: "https://blogger-frontend-eosin.vercel.app",
+    origin: `${process.env.CORS_URL}`,
   })
 );
 app.use(express.json());
@@ -74,10 +74,15 @@ app.post("/login", async (req, res) => {
     //login
     jwt.sign({ username, id: user._id }, secret, {}, (err, token) => {
       if (err) throw err;
-      res.cookie("token", token).json({
-        id: user._id,
-        username,
-      });
+      res
+        .cookie("token", token, {
+          sameSite: "none",
+          secure: true,
+        })
+        .json({
+          id: user._id,
+          username,
+        });
     });
   } else {
     res.status(400).json("Wrong Credentials.❌");
@@ -103,8 +108,10 @@ app.post("/logout", (req, res) => {
 app.post("/post", upload.single("file"), async (req, res) => {
   try {
     const { token } = req.cookies;
+    console.log("1");
     jwt.verify(token, secret, {}, async (error, info) => {
       if (error) throw error;
+      console.log("2");
       const b64 = Buffer.from(req.file.buffer).toString("base64");
       let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
       const cldRes = await handleUpload(dataURI);
@@ -116,6 +123,7 @@ app.post("/post", upload.single("file"), async (req, res) => {
         cover: { url: cldRes.secure_url, id: cldRes.public_id },
         author: info.id,
       });
+      console.log("3");
       res.json(postDoc);
     });
   } catch (error) {
