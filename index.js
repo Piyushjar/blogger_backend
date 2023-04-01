@@ -44,7 +44,7 @@ const secret = process.env.JWT_SECRET;
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CORS_URL,
+    origin: "https://bytebuzz.vercel.app",
   })
 );
 app.use(express.json());
